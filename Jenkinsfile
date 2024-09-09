@@ -1,3 +1,19 @@
+{
+                sh "mvn test"
+            }
+        }
+    }
+}
+Make sure that the Maven installation configured in Jenkins is named maven3 under Manage Jenkins > Global Tool Configuration.
+
+After making these changes, your pipeline should execute correctly.
+
+
+
+
+
+
+You said:
 pipeline {
     agent { label 'jenkins-Agent' }
     
@@ -30,28 +46,24 @@ pipeline {
                 sh "mvn test"
             }
         }
-        
-        stage("SonarQube Analysis") {
-            steps {
-                script {
-                    withSonarQubeEnv('jenkins-sonarqube-token') {
-                        sh "mvn sonar:sonar"
-                    }
+      stage("sonarQube Analysis"){
+       steps{
+           script{
+                withSonarQubeEnv(credentialsId: 'jenkins-sonarqube-token') {
+                sh "mvn sonar:sonar"
                 }
-            }
-        }
-        
-        stage("Quality Gate") {
-            steps {
-                script {
-                    def qualityGate = waitForQualityGate()
-                    if (qualityGate.status != 'OK') {
-                        error "Pipeline aborted due to quality gate failure: ${qualityGate.status}"
-                    }
+             }
+          }
+      }
+      stage("Quality Gate"){
+             step{
+               script{
+                  wait for QualityGate abortPipeline: false, credentialsId: 'jenkins-sonarqube-token'
                 }
-            }
-        }
-    }
+             }
+        } 
+    
+  }
 }
 
   
