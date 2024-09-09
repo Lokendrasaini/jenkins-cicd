@@ -1,38 +1,36 @@
-
 pipeline {
-    agent{label 'jenkins-Agent'}
+    agent { label 'jenkins-Agent' }
+    
     tools {
-      jdk 'java17'
-      maven 'Maven3'
+        jdk 'java17'
+        maven 'Maven3'
     }
-    stages{
-      stage("cleanup Workspace"){
-          step {
-          cleanWs()
-           } 
-     }
-     
-    stages("checkout form SCM"){
-         steps{
-         git branch: 'main', credentialsId; 'github', url: 'https://github.com/Lokendrasaini/jenkins-cicd.git'
-          }
-    }
-     
-     stages("Test Application"){
-          steps {
-            sh "mvn clean package" 
-           }
-    }
-    
-      stages("Test Application"){
-          steps {
-            sh "mvn test" 
-           }
-    }
-    
-    
-  }
 
-
+    stages {
+        stage("Cleanup Workspace") {
+            steps {
+                cleanWs()
+            }
+        }
+        
+        stage("Checkout from SCM") {
+            steps {
+                git branch: 'main', credentialsId: 'github', url: 'https://github.com/Lokendrasaini/jenkins-cicd.git'
+            }
+        }
+        
+        stage("Build Application") {
+            steps {
+                sh "mvn clean package"
+            }
+        }
+        
+        stage("Test Application") {
+            steps {
+                sh "mvn test"
+            }
+        }
+    }
 }
+
   
