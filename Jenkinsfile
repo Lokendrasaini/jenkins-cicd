@@ -1,19 +1,3 @@
-{
-                sh "mvn test"
-            }
-        }
-    }
-}
-Make sure that the Maven installation configured in Jenkins is named maven3 under Manage Jenkins > Global Tool Configuration.
-
-After making these changes, your pipeline should execute correctly.
-
-
-
-
-
-
-You said:
 pipeline {
     agent { label 'jenkins-Agent' }
     
