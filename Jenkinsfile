@@ -5,7 +5,7 @@ pipeline {
         jdk 'java17'
         maven 'maven3'
     }
-    APP_NAME = "register-app-ci"
+    APP_NAME = "register-app-pipeline"
             RELEASE = "1.0.0"
             DOCKER_USER = "lokendrasaini"
             DOCKER_PASS = 'dockerhub'
